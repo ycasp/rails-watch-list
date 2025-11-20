@@ -1,0 +1,5 @@
+<h3><%= movie.title %></h3>
+<p><%= movie.rating %> with a star icon</p>
+<p> <%= movie.overview %> </p>
+<p><%= list.bookmarks.find_by(movie_id: movie.id).comment%></p>
+<p>button to delete the bookmark</p>

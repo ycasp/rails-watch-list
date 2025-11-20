@@ -1,0 +1,11 @@
+<h2>Banner of <%= @list.name %> with a counter</h2>
+
+<p>button for adding a movie to the list</p>
+
+<div>
+  <% @list.movies.each do |movie| %>
+    <div>
+      <%= render "movie", movie: movie, list:@list %>
+    </div>
+  <% end %>
+</div>

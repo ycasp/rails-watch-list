@@ -1,0 +1,5 @@
+<%= simple_form_for @list do |f| %>
+  <%= f.input :name %>
+  <%= f.button :submit, class: "btn btn-primary w-100"%>
+<% end %>
+<%= link_to "Cancel", lists_path, class: "btn btn-danger w-100" %>
