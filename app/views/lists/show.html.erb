@@ -1,11 +1,22 @@
-<h2>Banner of <%= @list.name %> with a counter</h2>
+<div class="list-banner" style="background-image: url(https://c8.alamy.com/comp/P4E572/vintage-black-and-white-film-strip-frame-or-background-P4E572.jpg)">
+  <div class="container text-center">
+    <h1>Your personal Watch Lists!</h1>
+  </div>
+</div>
 
-<p>button for adding a movie to the list</p>
-
-<div>
-  <% @list.movies.each do |movie| %>
-    <div>
-      <%= render "movie", movie: movie, list:@list %>
+<div class="container">
+  <div class="navbar navbar-expand-sm navbar-light navbar-lewagon" style="background-color: rgb(244, 244, 244);">
+    <div class="container-fluid d-flex justify-content-end">
+      <%= link_to "Add Movie to List", new_list_bookmark_path(@list.id), class: "btn btn-success" %>
     </div>
-  <% end %>
+  </div>
+</div>
+<div class="container">
+  <div class="row g-3">
+    <% @list.movies.each do |movie| %>
+      <div class="col-12 col-lg-6">
+        <%= render "movie", movie: movie, list:@list %>
+      </div>
+    <% end %>
+  </div>
 </div>

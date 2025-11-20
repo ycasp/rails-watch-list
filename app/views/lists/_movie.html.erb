@@ -1,5 +1,14 @@
-<h3><%= movie.title %></h3>
-<p><%= movie.rating %> with a star icon</p>
-<p> <%= movie.overview %> </p>
-<p><%= list.bookmarks.find_by(movie_id: movie.id).comment%></p>
-<p>button to delete the bookmark</p>
+<div class="card">
+  <img src=<%= movie.poster_url%> class="card-img-top" alt="Movie Poster of <%= movie.title %>">
+  <div class="card-body">
+    <h5 class="card-title"><%= movie.title %> <span class="rating"> &middot; <%= movie.rating %></span> <i class="fa-solid fa-star i-yellow"></i></h5>
+    <p class="card-text"><%= movie.overview.first(60) %>... </p>
+    <div class="d-flex justify-content-between">
+      <div class="d-flex">
+        <i class="fa-solid fa-quote-left"></i>
+        <p class="px-1"><em><%= list.bookmarks.find_by(movie_id: movie.id).comment%></em></p>
+      </div>
+      <%= link_to "Delete", bookmark_path(list.bookmarks.find_by(movie_id: movie.id).id), data: {turbo_method: :delete, turbo_confirm: "u sure?"}, class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,35 @@
-<div>
-  <h2>My Lists</h2>
+<div class="banner" style="background-image: url(/assets/list_banner.jpg)">
+  <div class="container text-center">
+    <h1>Your personal Watch Lists!</h1>
+  </div>
+</div>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/lists">My Lists</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <%= link_to "Create a Movie List", new_list_path, class: "btn btn-success" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class = "container">
+  <div class="row">
   <% @lists.each do |list| %>
-    <div><%= link_to list.name, list_path(list.id) %></div>
+    <div class="col-12 col-lg-6">
+      <%= link_to list_path(list.id) do %>
+        <div class="card-category m-2" style="background-image: url(/assets/list_img.jpg)">
+          <%= list.name %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
+  </div>
 </div>
