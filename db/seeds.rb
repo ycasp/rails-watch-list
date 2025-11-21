@@ -21,8 +21,19 @@ movies = JSON.parse(movie_uri)
 list_uri = URI.open("https://tmdb.lewagon.com/genre/movie/list").read
 lists = JSON.parse(list_uri)
 
-lists["genres"].each do |list|
-  List.create(list)
+list_backgrounds = []
+urls = [
+  "https://t3.ftcdn.net/jpg/12/65/97/96/360_F_1265979653_4dWWYR8M5bBZI8fqg6fxPcq9pkLBIO6q.jpg",
+  "https://res.cloudinary.com/sagacity/image/upload/c_crop,h_2563,w_3840,x_0,y_749/c_limit,dpr_auto,f_auto,fl_lossy,q_80,w_1200/shutterstock_By_Bill45_1201748011_wp6ro2.jpg",
+  "https://media.istockphoto.com/id/1492685467/vector/halloween-grave-background.jpg?s=612x612&w=0&k=20&c=ug0HfzbIn0K-07SBZObweUcf2TYxCf6LkMuXLwy4bhI="
+]
+files = urls.map { |url| URI.parse(url).open}
+
+lists["genres"].first(2).each do |list|
+  list = List.new(list)
+  list.photo.attach(io: files.sample, filename: "background.jpg", content_type: "image/jpg")
+  list.save
+  puts list.photo.key
 end
 puts "#{List.count} list created, eg #{List.first.name}"
 
@@ -34,9 +45,9 @@ movies["results"].each do |scraped_movie|
   movie.rating = scraped_movie["vote_average"].truncate(1)
   movie.poster_url = "https://image.tmdb.org/t/p/w300#{scraped_movie["poster_path"]}"
   movie.save
-  scraped_movie["genre_ids"].each do |genre_id|
-    Bookmark.create(movie_id: movie.id, list_id: genre_id, comment: "recommended by Axel")
-  end
+  # scraped_movie["genre_ids"].each do |genre_id|
+  #   Bookmark.create(movie_id: movie.id, list_id: genre_id, comment: "recommended by Axel")
+  # end
 end
 puts "#{Movie.count} list created, eg #{Movie.first.title}"
 puts "#{Bookmark.count} list created, eg #{Bookmark.first.comment}"
