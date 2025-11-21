@@ -9,6 +9,7 @@
 #   end
 require 'open-uri'
 require 'json'
+require 'pry-byebug'
 
 Bookmark.destroy_all
 Movie.destroy_all
@@ -29,11 +30,10 @@ urls = [
 ]
 files = urls.map { |url| URI.parse(url).open}
 
-lists["genres"].first(2).each do |list|
-  list = List.new(list)
+lists["genres"].each do |list|
+  list = List.new(name: list["name"])
   list.photo.attach(io: files.sample, filename: "background.jpg", content_type: "image/jpg")
   list.save
-  puts list.photo.key
 end
 puts "#{List.count} list created, eg #{List.first.name}"
 
@@ -45,9 +45,11 @@ movies["results"].each do |scraped_movie|
   movie.rating = scraped_movie["vote_average"].truncate(1)
   movie.poster_url = "https://image.tmdb.org/t/p/w300#{scraped_movie["poster_path"]}"
   movie.save
-  # scraped_movie["genre_ids"].each do |genre_id|
-  #   Bookmark.create(movie_id: movie.id, list_id: genre_id, comment: "recommended by Axel")
-  # end
+  scraped_movie["genre_ids"].each do |genre_id|
+    ref_list = lists["genres"].find { |list| list["id"] == genre_id }
+    list_id = List.find_by(name: ref_list["name"]).id
+    Bookmark.create(movie_id: movie.id, list_id: list_id, comment: "recommended by Axel")
+  end
 end
-puts "#{Movie.count} list created, eg #{Movie.first.title}"
-puts "#{Bookmark.count} list created, eg #{Bookmark.first.comment}"
+puts "#{Movie.count} movie created, eg #{Movie.first.title}"
+puts "#{Bookmark.count} bookmarks created, eg #{Bookmark.first.comment}"
