@@ -26,7 +26,7 @@
     <div class="col-12 col-lg-6">
       <%= link_to list_path(list.id) do %>
         <div class="card-category m-2" style="background-image: url(/assets/list_img.jpg)">
-          <%= list.name %>
+          <%= list.name %> (<%= list.bookmarks.count %>)
         </div>
       <% end %>
     </div>
